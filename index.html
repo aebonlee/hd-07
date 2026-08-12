@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="사내 프로젝트 참여, 공지사항, 웹진형 자유게시판, 자료실, 갤러리를 한 곳에서 운영하는 프로젝트 허브" />
+  <meta name="theme-color" content="#071A3D" />
+  <title>PROJECT BLUE | 사내 프로젝트 허브</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#071A3D;
+      --navy-2:#0B224D;
+      --royal:#1F5EFF;
+      --royal-2:#3B78FF;
+      --accent:#35D0BA;
+      --white:#FFFFFF;
+      --ink:#14213D;
+      --muted:#6B7896;
+      --line:#DDE5F3;
+      --bg:#F4F7FC;
+      --card:#FFFFFF;
+      --danger:#E5484D;
+      --warning:#FFB020;
+      --success:#1EA97C;
+      --shadow:0 18px 50px rgba(14,34,76,.12);
+      --radius:24px;
+      --radius-sm:14px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Nanum Gothic","Malgun Gothic",Arial,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.65;
+      word-break:keep-all;
+    }
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1180px,calc(100% - 40px));margin:0 auto}
+    .hidden{display:none!important}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Header */
+    .site-header{
+      position:fixed; inset:0 0 auto 0; z-index:1000;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background:rgba(7,26,61,.76);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+    .nav{
+      min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;color:#fff;font-weight:800;letter-spacing:.02em}
+    .brand-mark{
+      width:40px;height:40px;border-radius:13px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--royal),var(--accent));
+      box-shadow:0 8px 26px rgba(31,94,255,.35);
+      font-size:15px;
+    }
+    .brand small{display:block;color:#AFC5F8;font-size:11px;letter-spacing:.12em}
+    .nav-links{display:flex;align-items:center;gap:24px;color:#DBE7FF;font-size:14px;font-weight:700}
+    .nav-links a:hover{color:#fff}
+    .nav-actions{display:flex;align-items:center;gap:9px}
+    .btn{
+      border:0;border-radius:12px;padding:11px 16px;font-weight:800;
+      transition:.2s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--royal);color:#fff;box-shadow:0 10px 25px rgba(31,94,255,.28)}
+    .btn-primary:hover{background:var(--royal-2)}
+    .btn-accent{background:var(--accent);color:#052C30}
+    .btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.26)}
+    .btn-soft{background:#EDF3FF;color:var(--royal)}
+    .btn-danger{background:#FFF0F1;color:var(--danger)}
+    .btn-sm{padding:8px 12px;border-radius:10px;font-size:13px}
+
+    .mobile-menu-btn{display:none;background:none;border:0;color:#fff;font-size:24px}
+
+    /* Hero */
+    .hero{
+      min-height:760px;position:relative;overflow:hidden;
+      display:flex;align-items:center;color:#fff;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(53,208,186,.18), transparent 28%),
+        radial-gradient(circle at 82% 28%, rgba(31,94,255,.38), transparent 34%),
+        linear-gradient(145deg,#05152F 0%,#082452 52%,#071A3D 100%);
+      padding:140px 0 90px;
+    }
+    #heroCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.56}
+    .hero-grid{
+      position:absolute;inset:-35%;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size:52px 52px;
+      transform:perspective(700px) rotateX(62deg) rotateZ(-12deg);
+      animation:gridMove 16s linear infinite;
+      mask-image:linear-gradient(to bottom,transparent 5%,black 35%,transparent 82%);
+    }
+    @keyframes gridMove{to{background-position:104px 104px}}
+    .orb{position:absolute;border-radius:50%;filter:blur(1px);opacity:.6;animation:float 8s ease-in-out infinite}
+    .orb.one{width:180px;height:180px;right:8%;top:21%;background:rgba(53,208,186,.16)}
+    .orb.two{width:110px;height:110px;left:7%;bottom:13%;background:rgba(31,94,255,.22);animation-delay:-3s}
+    @keyframes float{50%{transform:translateY(-26px) translateX(12px)}}
+    .hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+      color:#DCE8FF;font-size:13px;font-weight:800;letter-spacing:.05em;
+    }
+    .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 7px rgba(53,208,186,.12)}
+    .hero h1{font-size:clamp(42px,6vw,72px);line-height:1.12;margin:22px 0 18px;letter-spacing:-.045em}
+    .hero h1 .accent{color:#75E8D9}
+    .hero p{font-size:18px;color:#C5D5F5;max-width:680px;margin:0 0 30px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-note{margin-top:18px;color:#90A9D4;font-size:13px}
+    .hero-panel{
+      border-radius:30px;padding:25px;
+      background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.055));
+      border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px rgba(0,0,0,.25);
+      backdrop-filter:blur(20px);
+    }
+    .mini-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .mini-title{font-weight:800}.mini-status{color:#8CF1E1;font-size:12px}
+    .hero-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .hero-stat{
+      padding:18px;border-radius:17px;background:rgba(4,18,44,.46);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .hero-stat b{display:block;font-size:24px}.hero-stat span{color:#AFC2E8;font-size:12px}
+    .mini-flow{margin-top:14px;padding:17px;border-radius:17px;background:rgba(4,18,44,.46)}
+    .flow-step{display:flex;gap:12px;align-items:flex-start;padding:10px 0}
+    .flow-num{flex:0 0 28px;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--royal);font-size:12px;font-weight:800}
+    .flow-step strong{display:block;font-size:14px}.flow-step small{color:#AFC2E8}
+
+    /* General sections */
+    section{padding:100px 0}
+    .section-kicker{color:var(--royal);font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+    .section-title{font-size:clamp(30px,4vw,44px);line-height:1.25;margin:10px 0 14px;letter-spacing:-.035em}
+    .section-desc{color:var(--muted);max-width:720px;margin:0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:42px}
+
+    /* Intro */
+    .intro{background:#fff}
+    .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .feature-card{
+      border:1px solid var(--line);border-radius:20px;padding:26px;background:#fff;
+      transition:.25s ease;min-height:220px;
+    }
+    .feature-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#C4D3F2}
+    .feature-icon{
+      width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+      background:#EDF3FF;color:var(--royal);font-size:23px;margin-bottom:22px
+    }
+    .feature-card:nth-child(4) .feature-icon{background:#E8FBF7;color:#0A7F71}
+    .feature-card h3{margin:0 0 8px;font-size:18px}.feature-card p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Join */
+    .join{background:linear-gradient(180deg,#F5F8FE,#EDF3FF)}
+    .join-layout{display:grid;grid-template-columns:.88fr 1.12fr;gap:56px;align-items:center}
+    .join-visual{
+      min-height:440px;border-radius:30px;padding:30px;color:#fff;overflow:hidden;position:relative;
+      background:linear-gradient(145deg,var(--navy),#0A3475);
+      box-shadow:var(--shadow);
+    }
+    .join-visual:after{
+      content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+      background:var(--royal);filter:blur(0);opacity:.22;right:-90px;bottom:-80px
+    }
+    .join-visual h3{font-size:28px;margin:0 0 12px;position:relative;z-index:2}
+    .join-visual p{color:#BFD0F2;position:relative;z-index:2}
+    .join-badge{display:inline-flex;background:rgba(53,208,186,.13);border:1px solid rgba(53,208,186,.3);color:#91F4E7;padding:7px 11px;border-radius:999px;font-size:12px;font-weight:800}
+    .visual-list{margin-top:30px;position:relative;z-index:2}
+    .visual-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .visual-check{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(53,208,186,.15);color:#70E3D4}
+    .steps{display:grid;gap:14px}
+    .step{
+      display:grid;grid-template-columns:54px 1fr;gap:18px;background:#fff;border:1px solid var(--line);
+      padding:22px;border-radius:18px;
+    }
+    .step-num{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:var(--royal);color:#fff;font-weight:800}
+    .step h4{margin:2px 0 5px}.step p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Board hub */
+    .boards{background:#fff}
+    .board-shell{border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 12px 42px rgba(18,41,88,.08)}
+    .board-toolbar{
+      padding:18px;background:#F8FAFE;border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap
+    }
+    .board-tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .board-tab{
+      border:1px solid transparent;background:transparent;color:#576782;padding:10px 14px;border-radius:11px;font-weight:800
+    }
+    .board-tab.active{background:var(--navy);color:#fff}
+    .board-actions{display:flex;align-items:center;gap:8px}
+    .search-box{display:flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:11px;overflow:hidden}
+    .search-box input{border:0;outline:0;padding:10px 12px;min-width:220px;background:transparent}
+    .search-box button{border:0;background:#fff;padding:10px 12px;color:var(--royal)}
+    .board-content{padding:26px;min-height:420px}
+    .board-empty{text-align:center;padding:80px 20px;color:var(--muted)}
+    .board-empty .big{font-size:44px;margin-bottom:10px}
+    .login-required{
+      background:#F7FAFF;border:1px dashed #BED0F0;border-radius:18px;text-align:center;padding:44px 20px
+    }
+    .login-required h3{margin:0 0 8px}.login-required p{color:var(--muted);margin:0 0 18px}
+
+    /* Notice list */
+    .notice-list{display:grid}
+    .notice-row{
+      display:grid;grid-template-columns:90px 1fr 130px 110px;gap:18px;align-items:center;
+      padding:17px 12px;border-bottom:1px solid #EEF2F8;cursor:pointer;
+    }
+    .notice-row:hover{background:#F9FBFF}
+    .notice-badge{font-size:12px;font-weight:800;color:var(--royal)}
+    .notice-row h4{margin:0;font-size:15px}.notice-row small{color:var(--muted)}
+    .pin{display:inline-block;margin-right:6px;color:var(--accent)}
+
+    /* Webzine */
+    .webzine-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .webzine-card{border:1px solid var(--line);border-radius:19px;padding:22px;cursor:pointer;transition:.2s}
+    .webzine-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(18,41,88,.08)}
+    .webzine-card .meta,.gallery-card .meta{color:var(--muted);font-size:12px}
+    .webzine-card h3{margin:10px 0 8px;font-size:19px}.webzine-card p{margin:0;color:#68748C;font-size:14px}
+    .tag{display:inline-flex;padding:5px 8px;border-radius:7px;background:#EDF3FF;color:var(--royal);font-weight:800;font-size:11px}
+
+    /* Files */
+    .file-list{display:grid;gap:10px}
+    .file-row{
+      display:grid;grid-template-columns:46px 1fr 120px 90px;align-items:center;gap:14px;
+      padding:14px;border:1px solid var(--line);border-radius:14px;
+    }
+    .file-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#EDF3FF;color:var(--royal)}
+    .file-row h4{margin:0 0 2px}.file-row small{color:var(--muted)}
+
+    /* Gallery */
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .gallery-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;cursor:pointer}
+    .gallery-image{aspect-ratio:4/3;background:linear-gradient(135deg,#E7EEFB,#D7E4FF);overflow:hidden;display:grid;place-items:center;color:#8BA2CD}
+    .gallery-image img{width:100%;height:100%;object-fit:cover}
+    .gallery-card-body{padding:16px}.gallery-card h4{margin:0 0 6px}
+
+    /* CTA */
+    .cta{padding:74px 0;background:var(--navy);color:#fff}
+    .cta-box{display:flex;justify-content:space-between;align-items:center;gap:30px}
+    .cta h2{font-size:36px;margin:0 0 8px}.cta p{margin:0;color:#B7C8EA}
+
+    /* Footer */
+    footer{background:#041026;color:#8298BE;padding:38px 0}
+    .footer-inner{display:flex;justify-content:space-between;gap:24px;align-items:center;font-size:13px}
+    footer strong{color:#DCE7FA}
+
+    /* Modals */
+    .modal-backdrop{
+      position:fixed;inset:0;z-index:3000;background:rgba(3,13,31,.72);backdrop-filter:blur(7px);
+      display:grid;place-items:center;padding:20px;
+    }
+    .modal{
+      width:min(620px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;
+      box-shadow:0 24px 100px rgba(0,0,0,.28);
+    }
+    .modal-lg{width:min(820px,100%)}
+    .modal-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+    .modal-head h3{margin:0}
+    .modal-close{border:0;background:#F1F4FA;width:36px;height:36px;border-radius:10px;font-size:20px}
+    .modal-body{padding:24px}
+    .auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#F1F4FA;border-radius:12px;padding:4px;margin-bottom:22px}
+    .auth-tab{border:0;background:transparent;padding:10px;border-radius:9px;font-weight:800;color:#6E7D98}
+    .auth-tab.active{background:#fff;color:var(--royal);box-shadow:0 3px 10px rgba(18,41,88,.08)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:grid;gap:7px;margin-bottom:14px}
+    .field.full{grid-column:1/-1}
+    .field label{font-size:13px;font-weight:800;color:#42506A}
+    .field input,.field textarea,.field select{
+      width:100%;border:1px solid #D6DEEC;border-radius:12px;padding:12px 13px;outline:none;background:#fff;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--royal);box-shadow:0 0 0 3px rgba(31,94,255,.1)}
+    .field textarea{min-height:170px;resize:vertical}
+    .helper{font-size:12px;color:var(--muted)}
+    .form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+    .detail-title{font-size:28px;line-height:1.3;margin:0 0 10px}
+    .detail-meta{color:var(--muted);font-size:13px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .detail-content{white-space:pre-wrap;padding:24px 0;min-height:160px}
+    .detail-image{border-radius:18px;overflow:hidden;margin-top:16px}
+    .detail-footer{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:18px}
+
+    /* Toast */
+    .toast-wrap{position:fixed;right:20px;bottom:20px;z-index:4000;display:grid;gap:10px}
+    .toast{
+      min-width:280px;max-width:400px;background:#0A1834;color:#fff;border-radius:14px;padding:14px 16px;
+      box-shadow:0 16px 40px rgba(0,0,0,.24);animation:toastIn .25s ease
+    }
+    .toast.success{border-left:4px solid var(--accent)}.toast.error{border-left:4px solid #FF6B73}
+    @keyframes toastIn{from{transform:translateY(10px);opacity:0}}
+
+    /* Loading */
+    .loader{width:30px;height:30px;border:3px solid #D9E2F2;border-top-color:var(--royal);border-radius:50%;animation:spin .7s linear infinite;margin:40px auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Responsive */
+    @media(max-width:960px){
+      .nav-links{display:none}
+      .mobile-menu-btn{display:block}
+      .hero-content,.join-layout{grid-template-columns:1fr}
+      .hero-panel{max-width:680px}
+      .feature-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .notice-row{grid-template-columns:80px 1fr 100px}.notice-row .views{display:none}
+      .cta-box{align-items:flex-start;flex-direction:column}
+    }
+    @media(max-width:680px){
+      .container{width:min(100% - 26px,1180px)}
+      .site-header .nav{min-height:66px}
+      .nav-actions .btn-outline{display:none}
+      .brand small{display:none}
+      .hero{min-height:auto;padding:120px 0 70px}
+      .hero h1{font-size:42px}
+      section{padding:72px 0}
+      .section-head{align-items:flex-start;flex-direction:column}
+      .feature-grid,.webzine-grid,.gallery-grid{grid-template-columns:1fr}
+      .hero-stat-grid{grid-template-columns:1fr 1fr}
+      .board-toolbar{align-items:stretch}
+      .board-tabs{width:100%}.board-tab{flex:1 1 45%}
+      .board-actions{width:100%}.search-box{flex:1}.search-box input{min-width:0;width:100%}
+      .notice-row{grid-template-columns:68px 1fr}.notice-row .author,.notice-row .views{display:none}
+      .file-row{grid-template-columns:42px 1fr}.file-row .date,.file-row .download-btn{display:none}
+      .form-grid{grid-template-columns:1fr}
+      .footer-inner{align-items:flex-start;flex-direction:column}
+      .cta h2{font-size:30px}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#home">
+        <span class="brand-mark">PB</span>
+        <span>PROJECT BLUE<small>INTERNAL PROJECT HUB</small></span>
+      </a>
+
+      <nav class="nav-links" aria-label="주요 메뉴">
+        <a href="#about">프로젝트 소개</a>
+        <a href="#join">참여안내</a>
+        <a href="#boards" data-board-link="notice">공지사항</a>
+        <a href="#boards" data-board-link="magazine">자유게시판</a>
+        <a href="#boards" data-board-link="files">자료실</a>
+        <a href="#boards" data-board-link="gallery">갤러리</a>
+      </nav>
+
+      <div class="nav-actions">
+        <span id="userBadge" class="hidden" style="color:#D6E4FF;font-size:13px;font-weight:700"></span>
+        <button id="loginBtn" class="btn btn-outline btn-sm">로그인</button>
+        <button id="signupBtn" class="btn btn-accent btn-sm">회원가입</button>
+        <button id="logoutBtn" class="btn btn-outline btn-sm hidden">로그아웃</button>
+        <button class="mobile-menu-btn" aria-label="메뉴 열기">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="orb one" aria-hidden="true"></div>
+      <div class="orb two" aria-hidden="true"></div>
+
+      <div class="container hero-content">
+        <div>
+          <span class="eyebrow"><span class="pulse"></span> 사내 프로젝트 공식 커뮤니케이션 허브</span>
+          <h1>함께 만들고,<br><span class="accent">함께 공유하는</span><br>프로젝트 공간</h1>
+          <p>
+            홍보실이 운영하는 사내 프로젝트 사이트입니다.
+            직원 회원가입 후 프로젝트 공지, 자유로운 아이디어, 실무 자료와 현장 이미지를
+            한 곳에서 확인하고 참여할 수 있습니다.
+          </p>
+          <div class="hero-cta">
+            <button class="btn btn-accent" id="heroSignupBtn">직원 회원가입</button>
+            <a class="btn btn-outline" href="#boards">프로젝트 게시판 보기</a>
+          </div>
+          <div class="hero-note">※ 사내 구성원용 서비스입니다. 가입 후 프로젝트 운영 정책에 따라 게시판을 이용해 주세요.</div>
+        </div>
+
+        <aside class="hero-panel" aria-label="프로젝트 허브 요약">
+          <div class="mini-top">
+            <div class="mini-title">Project Dashboard</div>
+            <div class="mini-status">● Supabase Connected</div>
+          </div>
+          <div class="hero-stat-grid">
+            <div class="hero-stat"><b>4</b><span>운영 게시판 유형</span></div>
+            <div class="hero-stat"><b>1</b><span>통합 직원 계정</span></div>
+            <div class="hero-stat"><b>RLS</b><span>사용자 권한 기반 보호</span></div>
+            <div class="hero-stat"><b>LIVE</b><span>프로젝트 정보 공유</span></div>
+          </div>
+          <div class="mini-flow">
+            <div class="flow-step"><span class="flow-num">1</span><div><strong>회원가입</strong><small>사내 이메일과 부서 정보를 등록합니다.</small></div></div>
+            <div class="flow-step"><span class="flow-num">2</span><div><strong>프로젝트 확인</strong><small>공지·웹진·자료·갤러리 메뉴를 확인합니다.</small></div></div>
+            <div class="flow-step"><span class="flow-num">3</span><div><strong>참여와 공유</strong><small>아이디어와 자료를 등록해 함께 프로젝트를 완성합니다.</small></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="intro" id="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Project Workspace</div>
+            <h2 class="section-title">프로젝트의 모든 소통을 한 곳에서</h2>
+            <p class="section-desc">공지 전달부터 아이디어 공유, 실무 파일 배포, 프로젝트 현장 기록까지 목적에 맞는 4가지 게시판 유형으로 구성했습니다.</p>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">📢</div>
+            <h3>공지사항</h3>
+            <p>프로젝트 일정, 운영 변경, 필수 확인 내용 등 공식 안내를 명확한 목록형 게시판으로 전달합니다.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📰</div>
+            <h3>자유게시판 · 웹진형</h3>
+            <p>구성원의 아이디어, 프로젝트 이야기, 부서별 활동을 읽기 편한 웹진 카드 형태로 공유합니다.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📁</div>
+            <h3>자료실</h3>
+            <p>업무 문서, 프로젝트 산출물, 양식과 참고자료를 Supabase Storage와 연결해 안전하게 공유합니다.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🖼️</div>
+            <h3>갤러리</h3>
+            <p>회의, 행사, 제작 과정과 성과 이미지를 시각 중심의 갤러리로 기록하고 프로젝트 스토리를 축적합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="join" id="join">
+      <div class="container join-layout">
+        <div class="join-visual">
+          <span class="join-badge">EMPLOYEE ONBOARDING</span>
+          <h3 style="margin-top:20px">직원 누구나 간단하게 참여</h3>
+          <p>복잡한 별도 계정 시스템 없이 Supabase Auth를 이용해 이메일 기반으로 가입하고 프로젝트 게시판을 이용합니다.</p>
+          <div class="visual-list">
+            <div class="visual-item"><span class="visual-check">✓</span><span>이메일 + 비밀번호 기반 간편 가입</span></div>
+            <div class="visual-item"><span class="visual-check">✓</span><span>이름 · 부서 정보만 추가 입력</span></div>
+            <div class="visual-item"><span class="visual-check">✓</span><span>로그인 사용자만 게시물·파일 열람</span></div>
+            <div class="visual-item"><span class="visual-check">✓</span><span>작성자 본인 중심의 수정·삭제 권한</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-kicker">How to Join</div>
+          <h2 class="section-title">3단계로 프로젝트에 참여하세요</h2>
+          <p class="section-desc" style="margin-bottom:26px">회원가입 → 이메일 확인 → 로그인 후 바로 게시판을 이용할 수 있습니다.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">01</div>
+              <div><h4>직원 회원가입</h4><p>상단 ‘회원가입’ 버튼을 선택하고 이름, 부서, 이메일, 비밀번호를 입력합니다.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">02</div>
+              <div><h4>이메일 인증</h4><p>Supabase Auth의 이메일 확인 기능을 사용하는 경우 받은 메일에서 가입을 인증합니다.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">03</div>
+              <div><h4>프로젝트 참여</h4><p>로그인 후 공지사항을 확인하고 자유게시판, 자료실, 갤러리에 프로젝트 내용을 공유합니다.</p></div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="margin-top:22px" id="joinSignupBtn">지금 회원가입하기</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="boards" id="boards">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Communication Center</div>
+            <h2 class="section-title">프로젝트 게시판</h2>
+            <p class="section-desc">메뉴별 목적에 맞게 레이아웃이 자동으로 변경됩니다. 데이터는 Supabase Database와 Storage에서 불러옵니다.</p>
+          </div>
+          <button id="newPostTopBtn" class="btn btn-primary">+ 새 글 작성</button>
+        </div>
+
+        <div class="board-shell">
+          <div class="board-toolbar">
+            <div class="board-tabs" role="tablist" aria-label="게시판 선택">
+              <button class="board-tab active" data-type="notice">공지사항</button>
+              <button class="board-tab" data-type="magazine">자유게시판</button>
+              <button class="board-tab" data-type="files">자료실</button>
+              <button class="board-tab" data-type="gallery">갤러리</button>
+            </div>
+            <div class="board-actions">
+              <div class="search-box">
+                <label class="sr-only" for="boardSearch">게시물 검색</label>
+                <input id="boardSearch" type="search" placeholder="제목 또는 내용 검색" />
+                <button id="searchBtn" aria-label="검색">⌕</button>
+              </div>
+              <button id="newPostBtn" class="btn btn-soft btn-sm">글쓰기</button>
+            </div>
+          </div>
+          <div id="boardContent" class="board-content">
+            <div class="loader"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container cta-box">
+        <div>
+          <h2>프로젝트의 다음 장면을 함께 만들어 주세요.</h2>
+          <p>작은 아이디어 하나, 현장 사진 한 장, 유용한 자료 하나가 프로젝트 전체의 성과를 더 크게 만듭니다.</p>
+        </div>
+        <button class="btn btn-accent" id="ctaSignupBtn">프로젝트 참여하기</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>PROJECT BLUE</strong> · 사내 프로젝트 공식 허브</div>
+      <div>운영: 홍보실 · Supabase 기반 프로젝트 커뮤니케이션 시스템</div>
+    </div>
+  </footer>
+
+  <!-- Auth modal -->
+  <div id="authModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="authTitle">직원 계정</h3>
+        <button class="modal-close" data-close="authModal" aria-label="닫기">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-auth-view="login">로그인</button>
+          <button class="auth-tab" data-auth-view="signup">회원가입</button>
+        </div>
+
+        <form id="loginForm">
+          <div class="field">
+            <label for="loginEmail">이메일</label>
+            <input id="loginEmail" type="email" autocomplete="email" required placeholder="name@company.com">
+          </div>
+          <div class="field">
+            <label for="loginPassword">비밀번호</label>
+            <input id="loginPassword" type="password" autocomplete="current-password" required minlength="6" placeholder="비밀번호">
+          </div>
+          <button class="btn btn-primary" style="width:100%" type="submit">로그인</button>
+        </form>
+
+        <form id="signupForm" class="hidden">
+          <div class="form-grid">
+            <div class="field">
+              <label for="signupName">이름</label>
+              <input id="signupName" type="text" required maxlength="40" placeholder="홍길동">
+            </div>
+            <div class="field">
+              <label for="signupDepartment">부서</label>
+              <input id="signupDepartment" type="text" required maxlength="60" placeholder="홍보실">
+            </div>
+            <div class="field full">
+              <label for="signupEmail">이메일</label>
+              <input id="signupEmail" type="email" autocomplete="email" required placeholder="name@company.com">
+            </div>
+            <div class="field full">
+              <label for="signupPassword">비밀번호</label>
+              <input id="signupPassword" type="password" autocomplete="new-password" required minlength="6" placeholder="6자 이상 입력">
+              <span class="helper">운영 시 사내 이메일 도메인 제한이 필요하면 SQL/가입 로직에서 추가할 수 있습니다.</span>
+            </div>
+          </div>
+          <button class="btn btn-accent" style="width:100%" type="submit">회원가입</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post modal -->
+  <div id="postModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="postModalTitle">
+    <div class="modal modal-lg">
+      <div class="modal-head">
+        <h3 id="postModalTitle">새 글 작성</h3>
+        <button class="modal-close" data-close="postModal" aria-label="닫기">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="postForm">
+          <input type="hidden" id="postId">
+          <div class="form-grid">
+            <div class="field">
+              <label for="postCategory">게시판</label>
+              <select id="postCategory" required>
+                <option value="notice">공지사항</option>
+                <option value="magazine">자유게시판</option>
+                <option value="files">자료실</option>
+                <option value="gallery">갤러리</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="postTitle">제목</label>
+              <input id="postTitle" required maxlength="150" placeholder="제목을 입력하세요">
+            </div>
+            <div class="field full">
+              <label for="postContent">내용</label>
+              <textarea id="postContent" required maxlength="10000" placeholder="프로젝트와 관련된 내용을 입력하세요."></textarea>
+            </div>
+            <div id="fileField" class="field full hidden">
+              <label for="postFile">첨부파일</label>
+              <input id="postFile" type="file">
+              <span class="helper">자료실용 첨부파일입니다. 로그인 사용자만 접근할 수 있는 비공개 Storage 버킷을 사용합니다.</span>
+            </div>
+            <div id="imageField" class="field full hidden">
+              <label for="postImage">대표 이미지</label>
+              <input id="postImage" type="file" accept="image/*">
+              <span class="helper">갤러리 대표 이미지입니다. JPG, PNG, WebP 등을 권장합니다.</span>
+            </div>
+            <div id="pinField" class="field full hidden">
+              <label><input id="postPinned" type="checkbox" style="width:auto;margin-right:7px"> 상단 고정 공지</label>
+              <span class="helper">관리자 계정만 공지사항을 등록할 수 있도록 SQL 정책이 설정됩니다.</span>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-soft" data-close="postModal">취소</button>
+            <button type="submit" class="btn btn-primary" id="postSubmitBtn">등록하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail modal -->
+  <div id="detailModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal modal-lg">
+      <div class="modal-head">
+        <h3>게시물 보기</h3>
+        <button class="modal-close" data-close="detailModal" aria-label="닫기">×</button>
+      </div>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    /* =========================================================
+       Supabase project configuration
+       - publishable key는 브라우저 사용을 전제로 한 키입니다.
+       - 아래 값은 사용자가 제공한 프로젝트 정보입니다.
+       ========================================================= */
+    const SUPABASE_URL = 'https://hcmgdztsgjvzcyxyayaj.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_vYCKlU2lbPkXpUDj1sILow_DskJCRVS';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
+
+    const state = {
+      user: null,
+      profile: null,
+      boardType: 'notice',
+      posts: [],
+      search: ''
+    };
+
+    const categoryLabels = {
+      notice: '공지사항',
+      magazine: '자유게시판',
+      files: '자료실',
+      gallery: '갤러리'
+    };
+
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+    const esc = (value='') => String(value)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+    const nl2brPreview = (value='', len=140) => esc(value.length > len ? value.slice(0,len) + '…' : value);
+    const fmtDate = (value) => value ? new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value)) : '-';
+    const fmtDateTime = (value) => value ? new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(value)) : '-';
+
+    function toast(message, type='success'){
+      const wrap = $('#toastWrap');
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      el.textContent = message;
+      wrap.appendChild(el);
+      setTimeout(() => el.remove(), 3600);
+    }
+
+    function openModal(id){ $('#' + id).classList.remove('hidden'); document.body.style.overflow='hidden'; }
+    function closeModal(id){ $('#' + id).classList.add('hidden'); document.body.style.overflow=''; }
+
+    $$('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+    $$('.modal-backdrop').forEach(backdrop => backdrop.addEventListener('click', e => {
+      if(e.target === backdrop) closeModal(backdrop.id);
+    }));
+
+    // ---------- Hero animated background ----------
+    const canvas = $('#heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resizeCanvas(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      const count = Math.min(70, Math.floor(canvas.clientWidth / 18));
+      particles = Array.from({length:count},()=>({
+        x:Math.random()*canvas.clientWidth,
+        y:Math.random()*canvas.clientHeight,
+        vx:(Math.random()-.5)*.25,
+        vy:(Math.random()-.5)*.25,
+        r:Math.random()*1.8+.7
+      }));
+    }
+    function animateCanvas(){
+      ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+      particles.forEach((p,i)=>{
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>canvas.clientWidth)p.vx*=-1;
+        if(p.y<0||p.y>canvas.clientHeight)p.vy*=-1;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(166,205,255,.65)';ctx.fill();
+        for(let j=i+1;j<particles.length;j++){
+          const q=particles[j], dx=p.x-q.x, dy=p.y-q.y, dist=Math.hypot(dx,dy);
+          if(dist<105){
+            ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+            ctx.strokeStyle=`rgba(98,155,255,${(1-dist/105)*.13})`;
+            ctx.stroke();
+          }
+        }
+      });
+      requestAnimationFrame(animateCanvas);
+    }
+    window.addEventListener('resize',resizeCanvas);
+    resizeCanvas();animateCanvas();
+
+    // ---------- Auth UI ----------
+    function setAuthView(view){
+      $$('.auth-tab').forEach(b=>b.classList.toggle('active',b.dataset.authView===view));
+      $('#loginForm').classList.toggle('hidden',view!=='login');
+      $('#signupForm').classList.toggle('hidden',view!=='signup');
+    }
+    $$('.auth-tab').forEach(b=>b.addEventListener('click',()=>setAuthView(b.dataset.authView)));
+
+    function showAuth(view='login'){
+      setAuthView(view);
+      openModal('authModal');
+    }
+    $('#loginBtn').addEventListener('click',()=>showAuth('login'));
+    $('#signupBtn').addEventListener('click',()=>showAuth('signup'));
+    $('#heroSignupBtn').addEventListener('click',()=>showAuth('signup'));
+    $('#joinSignupBtn').addEventListener('click',()=>showAuth('signup'));
+    $('#ctaSignupBtn').addEventListener('click',()=>showAuth('signup'));
+
+    $('#signupForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email=$('#signupEmail').value.trim();
+      const password=$('#signupPassword').value;
+      const full_name=$('#signupName').value.trim();
+      const department=$('#signupDepartment').value.trim();
+
+      const { data, error } = await supabase.auth.signUp({
+        email, password,
+        options:{ data:{ full_name, department } }
+      });
+
+      if(error){ toast(error.message,'error'); return; }
+      if(data.session){
+        toast('회원가입과 로그인이 완료되었습니다.');
+      }else{
+        toast('회원가입이 접수되었습니다. 이메일 인증이 활성화되어 있다면 메일을 확인해 주세요.');
+      }
+      e.target.reset();
+      closeModal('authModal');
+    });
+
+    $('#loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const { error }=await supabase.auth.signInWithPassword({
+        email:$('#loginEmail').value.trim(),
+        password:$('#loginPassword').value
+      });
+      if(error){ toast('로그인에 실패했습니다. 이메일과 비밀번호를 확인해 주세요.','error'); return; }
+      e.target.reset();
+      closeModal('authModal');
+      toast('로그인되었습니다.');
+    });
+
+    $('#logoutBtn').addEventListener('click',async()=>{
+      await supabase.auth.signOut();
+      toast('로그아웃되었습니다.');
+    });
+
+    async function loadProfile(){
+      if(!state.user){ state.profile=null; return; }
+      const { data }=await supabase
+        .from('profiles')
+        .select('id,full_name,department,role')
+        .eq('id',state.user.id)
+        .maybeSingle();
+      state.profile=data || {
+        id:state.user.id,
+        full_name:state.user.user_metadata?.full_name || state.user.email,
+        department:state.user.user_metadata?.department || '',
+        role:'member'
+      };
+    }
+
+    function updateAuthUI(){
+      const logged=!!state.user;
+      $('#loginBtn').classList.toggle('hidden',logged);
+      $('#signupBtn').classList.toggle('hidden',logged);
+      $('#logoutBtn').classList.toggle('hidden',!logged);
+      $('#userBadge').classList.toggle('hidden',!logged);
+      $('#userBadge').textContent=logged ? `${state.profile?.full_name || state.user.email}${state.profile?.department ? ' · '+state.profile.department : ''}` : '';
+    }
+
+    async function syncSession(){
+      const { data:{ session } }=await supabase.auth.getSession();
+      state.user=session?.user || null;
+      await loadProfile();
+      updateAuthUI();
+      await loadPosts();
+    }
+
+    supabase.auth.onAuthStateChange(async(_event,session)=>{
+      state.user=session?.user || null;
+      await loadProfile();
+      updateAuthUI();
+      await loadPosts();
+    });
+
+    // ---------- Board controls ----------
+    function setBoardType(type){
+      state.boardType=type;
+      $$('.board-tab').forEach(b=>b.classList.toggle('active',b.dataset.type===type));
+      $('#postCategory').value=type;
+      updatePostFields();
+      loadPosts();
+    }
+
+    $$('.board-tab').forEach(btn=>btn.addEventListener('click',()=>setBoardType(btn.dataset.type)));
+    $$('[data-board-link]').forEach(a=>a.addEventListener('click',()=>setTimeout(()=>setBoardType(a.dataset.boardLink),50)));
+    $('#searchBtn').addEventListener('click',()=>{state.search=$('#boardSearch').value.trim();loadPosts();});
+    $('#boardSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){state.search=e.currentTarget.value.trim();loadPosts();}});
+
+    function updatePostFields(){
+      const type=$('#postCategory').value;
+      $('#fileField').classList.toggle('hidden',type!=='files');
+      $('#imageField').classList.toggle('hidden',type!=='gallery');
+      $('#pinField').classList.toggle('hidden',type!=='notice');
+    }
+    $('#postCategory').addEventListener('change',updatePostFields);
+
+    function beginNewPost(){
+      if(!state.user){ toast('글을 작성하려면 먼저 로그인해 주세요.','error'); showAuth('login'); return; }
+      if(state.boardType === 'notice' && state.profile?.role !== 'admin'){
+        toast('공지사항은 관리자만 등록할 수 있습니다.','error');
+        return;
+      }
+      $('#postForm').reset();
+      $('#postId').value='';
+      $('#postCategory').value=state.boardType;
+      $('#postModalTitle').textContent='새 글 작성';
+      $('#postSubmitBtn').textContent='등록하기';
+      updatePostFields();
+      openModal('postModal');
+    }
+    $('#newPostBtn').addEventListener('click',beginNewPost);
+    $('#newPostTopBtn').addEventListener('click',beginNewPost);
+
+    async function loadPosts(){
+      const target=$('#boardContent');
+
+      if(!state.user){
+        target.innerHTML=`
+          <div class="login-required">
+            <h3>회원 전용 프로젝트 게시판입니다.</h3>
+            <p>직원 계정으로 로그인하면 공지사항, 자유게시판, 자료실, 갤러리를 이용할 수 있습니다.</p>
+            <button class="btn btn-primary" id="inlineLoginBtn">로그인하기</button>
+          </div>`;
+        $('#inlineLoginBtn')?.addEventListener('click',()=>showAuth('login'));
+        return;
+      }
+
+      target.innerHTML='<div class="loader"></div>';
+
+      let query=supabase
+        .from('posts')
+        .select(`
+          id,category,title,content,is_pinned,author_id,created_at,updated_at,
+          attachment_path,attachment_name,cover_path,
+          profiles(full_name,department,role)
+        `)
+        .eq('category',state.boardType)
+        .eq('status','published')
+        .order('is_pinned',{ascending:false})
+        .order('created_at',{ascending:false})
+        .limit(60);
+
+      if(state.search){
+        const safe=state.search.replaceAll(',',' ');
+        query=query.or(`title.ilike.%${safe}%,content.ilike.%${safe}%`);
+      }
+
+      const { data,error }=await query;
+      if(error){
+        target.innerHTML=`<div class="board-empty"><div class="big">⚠️</div><p>${esc(error.message)}</p><small>먼저 제공된 SQL 스크립트를 Supabase SQL Editor에서 실행해 주세요.</small></div>`;
+        return;
+      }
+      state.posts=data || [];
+      await renderPosts();
+    }
+
+    async function renderPosts(){
+      const target=$('#boardContent');
+      if(!state.posts.length){
+        target.innerHTML=`<div class="board-empty"><div class="big">📭</div><b>등록된 ${categoryLabels[state.boardType]} 게시물이 없습니다.</b><p>첫 번째 프로젝트 소식을 등록해 보세요.</p></div>`;
+        return;
+      }
+      if(state.boardType==='notice') renderNotices(target);
+      if(state.boardType==='magazine') renderMagazine(target);
+      if(state.boardType==='files') renderFiles(target);
+      if(state.boardType==='gallery') await renderGallery(target);
+      bindPostOpenEvents();
+    }
+
+    function authorName(p){
+      const pr=Array.isArray(p.profiles)?p.profiles[0]:p.profiles;
+      return pr?.full_name || '구성원';
+    }
+
+    function renderNotices(target){
+      target.innerHTML=`<div class="notice-list">${state.posts.map(p=>`
+        <article class="notice-row" data-post-id="${p.id}">
+          <div class="notice-badge">${p.is_pinned?'<span class="pin">◆</span>중요':'공지'}</div>
+          <div><h4>${esc(p.title)}</h4><small>${fmtDate(p.created_at)}</small></div>
+          <div class="author"><small>${esc(authorName(p))}</small></div>
+          <div class="views"><small>자세히 보기 →</small></div>
+        </article>`).join('')}</div>`;
+    }
+
+    function renderMagazine(target){
+      target.innerHTML=`<div class="webzine-grid">${state.posts.map(p=>`
+        <article class="webzine-card" data-post-id="${p.id}">
+          <span class="tag">PROJECT STORY</span>
+          <h3>${esc(p.title)}</h3>
+          <p>${nl2brPreview(p.content,160)}</p>
+          <div class="meta" style="margin-top:16px">${esc(authorName(p))} · ${fmtDate(p.created_at)}</div>
+        </article>`).join('')}</div>`;
+    }
+
+    function renderFiles(target){
+      target.innerHTML=`<div class="file-list">${state.posts.map(p=>`
+        <article class="file-row" data-post-id="${p.id}">
+          <div class="file-icon">📎</div>
+          <div><h4>${esc(p.title)}</h4><small>${esc(p.attachment_name || '첨부파일 없음')} · ${esc(authorName(p))}</small></div>
+          <div class="date"><small>${fmtDate(p.created_at)}</small></div>
+          <button class="btn btn-soft btn-sm download-btn" data-download="${p.id}" ${p.attachment_path?'':'disabled'}>다운로드</button>
+        </article>`).join('')}</div>`;
+
+      $$('[data-download]',target).forEach(btn=>btn.addEventListener('click',async(e)=>{
+        e.stopPropagation();
+        const post=state.posts.find(p=>p.id===btn.dataset.download);
+        if(post?.attachment_path) await downloadPrivateFile('project-files',post.attachment_path,post.attachment_name);
+      }));
+    }
+
+    async function renderGallery(target){
+      const cards=await Promise.all(state.posts.map(async p=>{
+        let imageUrl='';
+        if(p.cover_path){
+          const { data }=await supabase.storage.from('project-images').createSignedUrl(p.cover_path,3600);
+          imageUrl=data?.signedUrl || '';
+        }
+        return `
+          <article class="gallery-card" data-post-id="${p.id}">
+            <div class="gallery-image">${imageUrl?`<img src="${esc(imageUrl)}" alt="${esc(p.title)}">`:'<span>PROJECT IMAGE</span>'}</div>
+            <div class="gallery-card-body">
+              <h4>${esc(p.title)}</h4>
+              <div class="meta">${esc(authorName(p))} · ${fmtDate(p.created_at)}</div>
+            </div>
+          </article>`;
+      }));
+      target.innerHTML=`<div class="gallery-grid">${cards.join('')}</div>`;
+    }
+
+    function bindPostOpenEvents(){
+      $$('[data-post-id]').forEach(el=>el.addEventListener('click',()=>openPost(el.dataset.postId)));
+    }
+
+    async function openPost(id){
+      const { data:p,error }=await supabase
+        .from('posts')
+        .select(`
+          id,category,title,content,is_pinned,author_id,created_at,updated_at,
+          attachment_path,attachment_name,cover_path,
+          profiles(full_name,department,role)
+        `)
+        .eq('id',id)
+        .single();
+
+      if(error){toast(error.message,'error');return;}
+
+      let imageHtml='';
+      if(p.cover_path){
+        const {data}=await supabase.storage.from('project-images').createSignedUrl(p.cover_path,3600);
+        if(data?.signedUrl) imageHtml=`<div class="detail-image"><img src="${esc(data.signedUrl)}" alt="${esc(p.title)}"></div>`;
+      }
+
+      const canEdit=state.user && (state.user.id===p.author_id || state.profile?.role==='admin');
+      const pr=Array.isArray(p.profiles)?p.profiles[0]:p.profiles;
+      $('#detailBody').innerHTML=`
+        <span class="tag">${esc(categoryLabels[p.category])}</span>
+        <h2 class="detail-title">${esc(p.title)}</h2>
+        <div class="detail-meta">${esc(pr?.full_name || '구성원')}${pr?.department?' · '+esc(pr.department):''} · ${fmtDateTime(p.created_at)}</div>
+        ${imageHtml}
+        <div class="detail-content">${esc(p.content)}</div>
+        ${p.attachment_path?`<button class="btn btn-soft" id="detailDownloadBtn">📎 ${esc(p.attachment_name || '첨부파일 다운로드')}</button>`:''}
+        <div class="detail-footer">
+          <button class="btn btn-soft" data-close-detail>닫기</button>
+          <div>
+            ${canEdit?`<button class="btn btn-soft" id="editPostBtn">수정</button>
+            <button class="btn btn-danger" id="deletePostBtn">삭제</button>`:''}
+          </div>
+        </div>`;
+
+      $('[data-close-detail]')?.addEventListener('click',()=>closeModal('detailModal'));
+      $('#detailDownloadBtn')?.addEventListener('click',()=>downloadPrivateFile('project-files',p.attachment_path,p.attachment_name));
+      $('#editPostBtn')?.addEventListener('click',()=>beginEditPost(p));
+      $('#deletePostBtn')?.addEventListener('click',()=>deletePost(p));
+      openModal('detailModal');
+    }
+
+    async function downloadPrivateFile(bucket,path,name){
+      const { data,error }=await supabase.storage.from(bucket).download(path);
+      if(error){toast('파일 다운로드에 실패했습니다.','error');return;}
+      const url=URL.createObjectURL(data);
+      const a=document.createElement('a');a.href=url;a.download=name || path.split('/').pop();a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
+
+    function beginEditPost(p){
+      closeModal('detailModal');
+      $('#postId').value=p.id;
+      $('#postCategory').value=p.category;
+      $('#postTitle').value=p.title;
+      $('#postContent').value=p.content;
+      $('#postPinned').checked=!!p.is_pinned;
+      $('#postModalTitle').textContent='게시물 수정';
+      $('#postSubmitBtn').textContent='수정 완료';
+      updatePostFields();
+      openModal('postModal');
+    }
+
+    async function deletePost(p){
+      if(!confirm('이 게시물을 삭제하시겠습니까?')) return;
+      if(p.attachment_path) await supabase.storage.from('project-files').remove([p.attachment_path]);
+      if(p.cover_path) await supabase.storage.from('project-images').remove([p.cover_path]);
+
+      const {error}=await supabase.from('posts').delete().eq('id',p.id);
+      if(error){toast(error.message,'error');return;}
+      closeModal('detailModal');
+      toast('게시물이 삭제되었습니다.');
+      await loadPosts();
+    }
+
+    async function uploadToBucket(bucket,file){
+      const ext=file.name.includes('.') ? '.'+file.name.split('.').pop() : '';
+      const base=file.name.replace(/\.[^/.]+$/,'').replace(/[^\w가-힣-]+/g,'_').slice(0,60);
+      const path=`${state.user.id}/${Date.now()}_${base}${ext}`;
+      const {error}=await supabase.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type || undefined});
+      if(error) throw error;
+      return path;
+    }
+
+    $('#postForm').addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      if(!state.user){showAuth('login');return;}
+
+      const id=$('#postId').value;
+      const category=$('#postCategory').value;
+      const payload={
+        category,
+        title:$('#postTitle').value.trim(),
+        content:$('#postContent').value.trim(),
+        is_pinned:category==='notice' ? $('#postPinned').checked : false
+      };
+
+      const submit=$('#postSubmitBtn');
+      submit.disabled=true;submit.textContent='저장 중...';
+
+      try{
+        if(category==='files' && $('#postFile').files[0]){
+          const file=$('#postFile').files[0];
+          payload.attachment_path=await uploadToBucket('project-files',file);
+          payload.attachment_name=file.name;
+        }
+        if(category==='gallery' && $('#postImage').files[0]){
+          payload.cover_path=await uploadToBucket('project-images',$('#postImage').files[0]);
+        }
+
+        let error;
+        if(id){
+          ({error}=await supabase.from('posts').update(payload).eq('id',id));
+        }else{
+          payload.author_id=state.user.id;
+          ({error}=await supabase.from('posts').insert(payload));
+        }
+        if(error) throw error;
+
+        closeModal('postModal');
+        toast(id?'게시물이 수정되었습니다.':'게시물이 등록되었습니다.');
+        state.boardType=category;
+        $('#postForm').reset();
+        $('#postId').value='';
+        setBoardType(category);
+      }catch(err){
+        toast(err.message || '저장 중 오류가 발생했습니다.','error');
+      }finally{
+        submit.disabled=false;submit.textContent=id?'수정 완료':'등록하기';
+      }
+    });
+
+    // Mobile menu: compact dropdown behavior
+    $('.mobile-menu-btn').addEventListener('click',()=>{
+      const nav=$('.nav-links');
+      const open=getComputedStyle(nav).display!=='none';
+      if(open){ nav.style.display='none'; }
+      else{
+        nav.style.display='flex';nav.style.position='absolute';nav.style.top='66px';nav.style.left='13px';nav.style.right='13px';
+        nav.style.flexDirection='column';nav.style.alignItems='stretch';nav.style.gap='0';nav.style.padding='14px';
+        nav.style.borderRadius='14px';nav.style.background='#071A3D';nav.style.boxShadow='0 18px 50px rgba(0,0,0,.24)';
+      }
+    });
+
+    // Initialize
+    await syncSession();
+  </script>
+</body>
+</html>
